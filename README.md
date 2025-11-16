@@ -25,14 +25,22 @@
 
 ```mermaid
 flowchart LR
-    Internet --> PublicIP
-    PublicIP --> NIC
-    NIC --> VM[Linux VM]
+    Internet:::net --> PublicIP:::resource
+    PublicIP --> NIC:::resource
+    NIC --> VM[Linux VM]:::compute
 
-    VM --> SubnetWeb[Subnet: web]
-    SubnetWeb --> VNet[VNet]
+    VM --> SubnetWeb[Subnet: web]:::subnet
+    SubnetWeb --> VNet[VNet 10.0.0.0/16]:::vnet
 
-    SubnetBastion[Subnet: bastion] --> VNet
+    SubnetBastion[Subnet: bastion]:::subnet --> VNet
 
-    NSG[NSG (SSH/HTTP許可)] --> SubnetWeb
-    Storage[Storage Account] --> VNet
+    NSG[NSG (Allow SSH/HTTP)]:::nsg --> SubnetWeb
+    Storage[Storage Account]:::storage --> VNet
+
+classDef resource fill:#87CEFA,stroke:#333,stroke-width:1px;
+classDef compute fill:#FFD580,stroke:#333,stroke-width:1px;
+classDef vnet fill:#9FE2BF,stroke:#333,stroke-width:1px;
+classDef subnet fill:#D7FFEA,stroke:#333,stroke-width:1px;
+classDef nsg fill:#FFB6C1,stroke:#333,stroke-width:1px;
+classDef storage fill:#E6E6FA,stroke:#333,stroke-width:1px;
+classDef net fill:#B0C4DE,stroke:#333,stroke-width:1px;
