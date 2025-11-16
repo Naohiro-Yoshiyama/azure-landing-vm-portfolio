@@ -96,7 +96,7 @@ resource subnetBastion 'Microsoft.Network/virtualNetworks/subnets@2023-04-01' = 
 }
 
 //
-// Public IP
+// Public IP（Standard + Static）
 //
 resource publicIp 'Microsoft.Network/publicIPAddresses@2023-04-01' = {
   name: '${prefix}-pip-web'
@@ -106,6 +106,7 @@ resource publicIp 'Microsoft.Network/publicIPAddresses@2023-04-01' = {
   }
   properties: {
     publicIPAllocationMethod: 'Static'
+    publicIPAddressVersion: 'IPv4'
   }
 }
 
