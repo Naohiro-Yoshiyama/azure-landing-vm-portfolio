@@ -102,7 +102,7 @@ resource publicIp 'Microsoft.Network/publicIPAddresses@2023-04-01' = {
   name: '${prefix}-pip-web'
   location: location
   sku: {
-    name: 'Basic'
+    name: 'Standard'
   }
   properties: {
     publicIPAllocationMethod: 'Dynamic'
