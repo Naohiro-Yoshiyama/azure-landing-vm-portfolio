@@ -1,0 +1,12 @@
+flowchart LR
+    Internet((Internet)) --> PublicIP[Public IP]
+    PublicIP --> NIC[NIC]
+    NIC --> VM[Linux VM]
+
+    VM --> SubnetWeb[Subnet: web]
+    SubnetWeb --> VNet[VNet: 10.0.0.0/16]
+
+    SubnetBastion[Subnet: bastion] --> VNet
+
+    NSG[NSG (SSH 22 / HTTP 80)] --> SubnetWeb
+    Storage[Storage Account] --> VNet
