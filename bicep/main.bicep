@@ -105,7 +105,7 @@ resource publicIp 'Microsoft.Network/publicIPAddresses@2023-04-01' = {
     name: 'Standard'
   }
   properties: {
-    publicIPAllocationMethod: 'Dynamic'
+    publicIPAllocationMethod: 'Static'
   }
 }
 
