@@ -19,15 +19,15 @@
 
 ---
 
+```mermaid
 flowchart LR
-    Internet --> PublicIP[Public IP]
-    PublicIP --> NIC[NIC]
-    NIC --> VM[Linux VM]
+    Internet --> PublicIP
+    PublicIP --> NIC
+    NIC --> VM
 
-    VM --> SubnetWeb[Subnet web]
-    SubnetWeb --> VNet[VNet]
+    VM --> SubnetWeb
+    SubnetWeb --> VNet
+    SubnetBastion --> VNet
 
-    SubnetBastion[Subnet bastion] --> VNet
-
-    NSG[NSG] --> SubnetWeb
-    Storage[Storage Account] --> VNet
+    NSG --> SubnetWeb
+    Storage --> VNet
