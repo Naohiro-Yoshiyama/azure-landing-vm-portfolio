@@ -19,7 +19,6 @@
 
 ---
 
-```mermaid
 flowchart LR
     Internet --> PublicIP
     PublicIP --> NIC
@@ -32,7 +31,4 @@ flowchart LR
     NSG --> SubnetWeb
     Storage --> VNet
 
-
-    NSG[NSG] --> SubnetWeb
-    Storage[Storage Account] --> VNet
 ![Uploading VNet.png…]()
