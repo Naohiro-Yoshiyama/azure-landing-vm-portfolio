@@ -1,21 +1,21 @@
-# Azure VM Landing Environment（個人ポートフォリオ）
+# 🚀 Azure VM Landing Environment（個人ポートフォリオ）
 
-このリポジトリは、私（Naohiro Yoshiyama）が Azure を用いて  
-**VNet / Subnet / NSG / Public IP / Linux VM を IaC（Bicep）で構築できるスキル** を示すためのポートフォリオです。
+Azure の基礎リソース（VNet / Subnet / NSG / Public IP / Linux VM）を  
+**Bicep による IaC（Infrastructure as Code）で自動構築**した個人ポートフォリオです。
 
 ---
 
-## 🌐 構成概要（実際にデプロイ済み）
+# 📦 構成概要
 
 - Resource Group  
 - Virtual Network（10.0.0.0/16）
   - Subnet-web（10.0.1.0/24）
   - Subnet-bastion（10.0.2.0/24）
 - Network Security Group（Allow-SSH / Allow-HTTP）
-- Public IP（Standard）
-- NIC
-- Linux VM（Ubuntu 20.04 / B2s）
-- Storage Account
+- Public IP  
+- NIC  
+- Linux VM（Ubuntu 20.04 / B2s）  
+- Storage Account  
 
 ---
 
@@ -44,13 +44,13 @@ Web（10.0.1.0/24）および Bastion（10.0.2.0/24）を分離しています�
 
 ### 🛡️ Network Security Group（NSG）
 
-Allow-SSH(22) / Allow-HTTP(80) のみ許可し、最低限の構成で公開しています。
+Allow-SSH(22) / Allow-HTTP(80) のみ許可し、最小限かつシンプルな初期構成 で公開しています。
 <img width="1631" height="655" alt="NSG" src="https://github.com/user-attachments/assets/951a689b-11a6-42c4-9a91-00d9ae66fe65" />
 
 ### 💻 Virtual Machine（VM）
 
 B2s（2vCPU / 4GB）サイズの Ubuntu 20.04 LTS をデプロイ。
-Public IP 経由で SSH / HTTP の疎通を確認済み。
+Public IP 経由で SSH / HTTP が動作確認済み。
 <img width="1617" height="329" alt="VM" src="https://github.com/user-attachments/assets/b50b132b-6eb0-4225-92d0-b5e8958480d9" />
 
 ## 🌐 Public IP の確認
@@ -60,8 +60,8 @@ Public IP 経由で SSH / HTTP の疎通を確認済み。
 
 ---
 
-## 🧪 HTTP 通信確認（curl）
-ローカル PC または VM 内部から curl で HTTP 通信を確認します。
+🔌 HTTP 通信確認（curl）
+ローカル PC または VM 内部から curl で HTTP 応答を確認しました。
 
 ```bash
 curl http://<Public-IP>
