@@ -20,15 +20,14 @@
 ---
 
 flowchart LR
-    Internet --> PublicIP
-    PublicIP --> NIC
-    NIC --> VM
+    Internet --> PublicIP[Public IP]
+    PublicIP --> NIC[NIC]
+    NIC --> VM[Linux VM]
 
-    VM --> SubnetWeb
-    SubnetWeb --> VNet
-    SubnetBastion --> VNet
+    VM --> SubnetWeb[Subnet web]
+    SubnetWeb --> VNet[VNet]
 
-    NSG --> SubnetWeb
-    Storage --> VNet
+    SubnetBastion[Subnet bastion] --> VNet
 
-![Uploading VNet.png…]()
+    NSG[NSG] --> SubnetWeb
+    Storage[Storage Account] --> VNet
