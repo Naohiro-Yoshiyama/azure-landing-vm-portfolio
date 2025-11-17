@@ -19,18 +19,19 @@
 
 ---
 
-## 🧱 アーキテクチャ図
+```mermaid
+flowchart LR
+    Internet --> PublicIP
+    PublicIP --> NIC
+    NIC --> VM
 
-本環境は以下の構成でデプロイされています。
+    VM --> SubnetWeb
+    SubnetWeb --> VNet
+    SubnetBastion --> VNet
 
-- VNet / Subnet（Web・Bastion）
-- Network Security Group（Allow-SSH / Allow-HTTP）
-- Public IP
-- NIC
-- Linux VM（Ubuntu）
-- Storage Account
+    NSG --> SubnetWeb
+    Storage --> VNet
 
-※ Mermaid 図（docs/architecture/diagram.mmd）を使用して作成
 
     NSG[NSG] --> SubnetWeb
     Storage[Storage Account] --> VNet
