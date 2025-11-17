@@ -19,6 +19,7 @@
 
 ---
 
+```mermaid
 flowchart LR
     Internet --> PublicIP[Public IP]
     PublicIP --> NIC[NIC]
