@@ -1,6 +1,10 @@
 targetScope = 'resourceGroup'
 
-@description('リソース名のプレフィックス（例: demo）')
+//
+// ───── パラメーター ──────────────────────────────
+//
+
+@description('リソース名のプレフィックス（例: demo → demo-vnet / demo-vm-web など）')
 param prefix string = 'demo'
 
 @description('デプロイ先リージョン。既定はリソースグループの場所')
@@ -13,15 +17,14 @@ param adminUsername string
 @description('VM の管理者パスワード（デモ用。本番では SSH キー推奨）')
 param adminPassword string
 
-@description('VM サイズ')
+@description('VM サイズ（ポートフォリオ用の小さめインスタンス）')
 param vmSize string = 'Standard_B2s'
 
-@description('Storage Account の SKU')
-param storageSku string = 'Standard_LRS'
+//
+// ───── Virtual Network & Subnets ────────────────
+// 10.0.0.0/16 を Web / Bastion の 2 つの /24 に分割
+//
 
-//
-// VNet
-//
 resource vnet 'Microsoft.Network/virtualNetworks@2023-04-01' = {
   name: '${prefix}-vnet'
   location: location
@@ -34,9 +37,7 @@ resource vnet 'Microsoft.Network/virtualNetworks@2023-04-01' = {
   }
 }
 
-//
-// NSG（Web サブネット用）
-//
+// Web サブネット用 NSG（SSH / HTTP を許可）
 resource nsgWeb 'Microsoft.Network/networkSecurityGroups@2023-04-01' = {
   name: '${prefix}-nsg-web'
   location: location
@@ -72,9 +73,7 @@ resource nsgWeb 'Microsoft.Network/networkSecurityGroups@2023-04-01' = {
   }
 }
 
-//
-// Subnet（Web）
-//
+// Web サブネット（NSG を関連付け）
 resource subnetWeb 'Microsoft.Network/virtualNetworks/subnets@2023-04-01' = {
   name: '${vnet.name}/subnet-web'
   properties: {
@@ -85,9 +84,7 @@ resource subnetWeb 'Microsoft.Network/virtualNetworks/subnets@2023-04-01' = {
   }
 }
 
-//
-// Subnet（Bastion / 運用用 – 今は未使用だが将来拡張用）
-//
+// Bastion / 運用用サブネット（将来用に確保）
 resource subnetBastion 'Microsoft.Network/virtualNetworks/subnets@2023-04-01' = {
   name: '${vnet.name}/subnet-bastion'
   properties: {
@@ -96,8 +93,9 @@ resource subnetBastion 'Microsoft.Network/virtualNetworks/subnets@2023-04-01' = 
 }
 
 //
-// Public IP（Standard + Static）
+// ───── Public IP & NIC ──────────────────────────
 //
+
 resource publicIp 'Microsoft.Network/publicIPAddresses@2023-04-01' = {
   name: '${prefix}-pip-web'
   location: location
@@ -110,9 +108,6 @@ resource publicIp 'Microsoft.Network/publicIPAddresses@2023-04-01' = {
   }
 }
 
-//
-// NIC
-//
 resource nic 'Microsoft.Network/networkInterfaces@2023-04-01' = {
   name: '${prefix}-nic-web'
   location: location
@@ -135,23 +130,10 @@ resource nic 'Microsoft.Network/networkInterfaces@2023-04-01' = {
 }
 
 //
-// Storage Account
+// ───── Linux VM（Web サーバー用） ────────────────
+// Ubuntu 20.04 LTS / Premium_LRS OS ディスク
 //
-resource storage 'Microsoft.Storage/storageAccounts@2023-01-01' = {
-  name: toLower('${prefix}st${uniqueString(resourceGroup().id)}')
-  location: location
-  sku: {
-    name: storageSku
-  }
-  kind: 'StorageV2'
-  properties: {
-    accessTier: 'Hot'
-  }
-}
 
-//
-// Linux VM（Ubuntu）
-//
 resource vm 'Microsoft.Compute/virtualMachines@2023-09-01' = {
   name: '${prefix}-vm-web'
   location: location
@@ -164,6 +146,7 @@ resource vm 'Microsoft.Compute/virtualMachines@2023-09-01' = {
       adminUsername: adminUsername
       adminPassword: adminPassword
       linuxConfiguration: {
+        // デモ用にパスワード認証を有効化（本番では SSH キー推奨）
         disablePasswordAuthentication: false
       }
     }
@@ -177,6 +160,7 @@ resource vm 'Microsoft.Compute/virtualMachines@2023-09-01' = {
       osDisk: {
         createOption: 'FromImage'
         managedDisk: {
+          // 小さめ VM でもサクサク動くよう Premium_LRS を指定
           storageAccountType: 'Premium_LRS'
         }
         diskSizeGB: 64
@@ -192,4 +176,15 @@ resource vm 'Microsoft.Compute/virtualMachines@2023-09-01' = {
   }
 }
 
+//
+// ───── Outputs（README に転記しやすい用）────────
+//
+
+@description('デプロイされた VM の Public IP')
 output vmPublicIp string = publicIp.properties.ipAddress
+
+@description('SSH 接続コマンドの例')
+output sshCommand string = 'ssh ${adminUsername}@${publicIp.properties.ipAddress}'
+
+@description('HTTP アクセス用 URL の例')
+output httpUrl string = 'http://${publicIp.properties.ipAddress}'
