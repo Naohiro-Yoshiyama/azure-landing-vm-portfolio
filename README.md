@@ -1,8 +1,9 @@
 # 🚀 Azure VM Landing Environment（個人ポートフォリオ）
 
-Azure の基礎リソース（VNet / Subnet / NSG / Public IP / Linux VM）を  
-**Bicep による IaC（Infrastructure as Code）で自動構築**した個人ポートフォリオです。
+このポートフォリオは、Azure基盤構築スキル（ネットワーク / セキュリティ / VM / IaC）を可視化するために作成しました。
 
+Azure の基盤リソース（VNet / Subnet / NSG / Public IP / Linux VM）を  
+Bicep による IaC（Infrastructure as Code）で自動構築した個人ポートフォリオです。
 ---
 
 # 📦 構成概要
@@ -15,7 +16,12 @@ Azure の基礎リソース（VNet / Subnet / NSG / Public IP / Linux VM）を
 - Public IP  
 - NIC  
 - Linux VM（Ubuntu 20.04 / B2s）  
-- Storage Account  
+- Storage Account
+  
+※ この構築では、ログ保管・将来の拡張用途を想定して Storage Account もデプロイしています（今回の Web サーバーでは未使用）。
+
+📁 Bicep テンプレート：
+➡ [main.bicep](./bicep/main.bicep)
 
 ---
 
@@ -55,7 +61,6 @@ Public IP 経由で SSH / HTTP が動作確認済み。
 
 ## 🌐 Public IP の確認
 この VM に割り当てられた Public IP は以下です。
-
 <img width="1601" height="248" alt="Public IP" src="https://github.com/user-attachments/assets/4bb6fd50-051a-4af4-95f2-f83fe72f1b11" />
 
 ---
