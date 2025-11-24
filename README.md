@@ -4,6 +4,7 @@
 
 Azure の基盤リソース（VNet / Subnet / NSG / Public IP / Linux VM）を  
 Bicep による IaC（Infrastructure as Code）で自動構築した個人ポートフォリオです。
+
 ---
 
 # 📦 構成概要
@@ -75,3 +76,7 @@ curl http://<Public-IP>
 
 nginx のデフォルトページが返り、HTTP 通信が成功していることを確認できます。
 
+---
+
+本構成は Azure の基盤設計・IaC（Bicep）・セキュリティ・ネットワーク構成の理解を目的として作成しました。
+今後は Azure Firewall / Load Balancer / Bastion / Monitoring を追加し、より実践的な環境に拡張予定です。
